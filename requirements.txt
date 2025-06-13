@@ -1,0 +1,4 @@
+eodhd==1.0.32
+python-dotenv==1.0.1
+pymongo==4.6.2
+tqdm==4.66.2 
