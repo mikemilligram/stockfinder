@@ -9,7 +9,7 @@ A data collection and REST API service for stock tickers and their fundamentals,
 ```
 services:
   stockfinder:
-    build: .
+    image: ghcr.io/mikemilligram/stockfinder:latest 
     environment:
       COUNTRIES: USA,Germany
       EODHD_API_KEY: ${EODHD_API_KEY}

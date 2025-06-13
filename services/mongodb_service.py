@@ -192,6 +192,8 @@ class MongoDBService:
 
         # Process in batches
         for i in range(0, len(tickers), batch_size):
+            tickers_left = len(tickers) - i
+            logger.info(f"Unprocessed tickers: {tickers_left}")
             while True:
                 # Check remaining API calls before each batch
                 remaining_calls = self.get_eodhd_remaining_api_calls()
