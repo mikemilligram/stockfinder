@@ -17,7 +17,7 @@ class MongoDBService:
         """Initialize MongoDB connection."""
         try:
             # Get MongoDB connection details from environment variables
-            host = os.getenv('MONGODB_HOST', 'db')
+            host = os.getenv('MONGODB_HOST', 'mongo')
             port = int(os.getenv('MONGODB_PORT', '27017'))
             username = os.getenv('MONGODB_USERNAME')
             password = os.getenv('MONGODB_PASSWORD')
@@ -195,6 +195,9 @@ class MongoDBService:
             tickers_left = len(tickers) - i
             logger.info(f"Unprocessed tickers: {tickers_left}")
             while True:
+                # Update API counter before checking remaining calls
+                self.update_api_counter()
+                
                 # Check remaining API calls before each batch
                 remaining_calls = self.get_eodhd_remaining_api_calls()
                 if remaining_calls is not None and batch_size * 10 > remaining_calls:
@@ -243,3 +246,20 @@ class MongoDBService:
         except Exception as e:
             logger.error(f"Error checking EODHD API remaining calls: {str(e)}")
             return None
+
+    def update_api_counter(self) -> None:
+        """
+        Make a lightweight API call to ensure the rate limit counter is properly updated for the new day.
+        This should be called before any major API operations.
+        """
+        try:
+            # Make a lightweight call to get API status
+            response = requests.get(
+                'https://eodhd.com/api/eod/AAPL.US',
+                params={'fmt': 'json', 'api_token': os.getenv('EODHD_API_KEY')}
+            )
+            response.raise_for_status()
+            logger.info("Successfully updated API counter")
+        except Exception as e:
+            logger.error(f"Error updating API counter: {str(e)}")
+            raise

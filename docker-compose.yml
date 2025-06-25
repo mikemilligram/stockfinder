@@ -1,9 +1,30 @@
 services:
   stockfinder:
-    build: .
+    container_name: stockfinder
+    image: ghcr.io/mikemilligram/stockfinder:latest
     environment:
-      LOG_LEVEL: INFO
       COUNTRIES: USA,Germany
       EODHD_API_KEY: ${EODHD_API_KEY}
-      MONGODB_HOST: ${MONGODB_HOST}
-    restart: unless-stopped 
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    networks:
+      - stockfinder
+
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+    networks:
+      - stockfinder
+
+volumes:
+  mongo_data:
+
+networks:
+  stockfinder:
+    name: stockfinder_net
