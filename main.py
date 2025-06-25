@@ -1,6 +1,6 @@
 import os
 import logging
-from typing import List, Dict, Any, Optional
+from typing import List
 from dotenv import load_dotenv
 from services.mongodb_service import MongoDBService
 

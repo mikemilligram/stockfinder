@@ -3,8 +3,6 @@ import logging
 from datetime import datetime, timezone
 from typing import List, Dict, Any, Optional
 from pymongo import MongoClient
-from pymongo.collection import Collection
-from pymongo.database import Database
 from eodhd import APIClient
 from tqdm import tqdm
 import requests
