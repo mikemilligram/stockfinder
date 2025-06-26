@@ -91,8 +91,8 @@ def main():
                 mongo_service.fetch_tickers(exchange_code)
         
         # Get batch size and wait time from environment variables
-        batch_size = os.getenv('BATCH_SIZE', 100)
-        minutes_to_wait = os.getenv('MINUTES_TO_WAIT', 10)
+        batch_size = int(os.getenv('BATCH_SIZE', 100))
+        minutes_to_wait = int(os.getenv('MINUTES_TO_WAIT', 60))
         
         # Collect fundamentals for all tickers
         mongo_service.collect_fundamentals(batch_size=batch_size, minutes_to_wait=minutes_to_wait)

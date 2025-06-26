@@ -1,7 +1,7 @@
 services:
   stockfinder:
     container_name: stockfinder
-    image: ghcr.io/mikemilligram/stockfinder:latest
+    build: .
     environment:
       COUNTRIES: USA,Germany
       EODHD_API_KEY: ${EODHD_API_KEY}
